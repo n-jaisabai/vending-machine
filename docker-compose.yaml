@@ -6,11 +6,15 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/usr/src/app
+      - ./backend:/app
     env_file:
       - ./backend/.env
     ports:
       - "8000:8000"
+    networks:
+      - db_network
+    depends_on:
+      - database
 
   frontend:
     build:
@@ -29,3 +33,11 @@ services:
       - ./backend/.env
     ports:
       - "3306:3306"
+    volumes:
+      - /data/db:/data/db
+    networks:
+      - db_network
+
+networks:
+  db_network:
+    driver: bridge
