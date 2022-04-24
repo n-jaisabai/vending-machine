@@ -27,6 +27,7 @@ def test_update_product(client: TestClient, random_product: Dict[str, str]) -> N
     product = response.json()
     assert response.status_code == 200
     assert product.get("price") == random_product.get("price")
+    assert product.get("stock") == random_product.get("stock")
 
 
 def test_delete_product(client: TestClient, random_product: Dict[str, str]) -> None:
