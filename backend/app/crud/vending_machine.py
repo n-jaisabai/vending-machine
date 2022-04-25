@@ -2,7 +2,7 @@ from app.crud.base import CRUDBase
 from app.models.vending_machine import VendingMachine
 from app.schemas import VendingMachineCreate, VendingMachineUpdate
 from sqlalchemy.orm import Session
-from typing import Any, Dict, Generic, List, Optional
+from typing import Optional
 
 
 class CRUDVendingMachine(CRUDBase[VendingMachine, VendingMachineCreate, VendingMachineUpdate]):
