@@ -118,7 +118,19 @@ def cancel(*, db: Session = Depends(get_db)) -> Any:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="The coin does not exist in the system.",
         )
-    
+    coin.total = total(coin.one_coin, coin.five_coin, coin.ten_coin, coin.twenty_banknote, coin.fifty_banknote, coin.hundred_banknote, coin.five_hundred_banknote, coin.thousand_banknote)
+    change_dict: schemas.TransactionChange = {
+        "one_coin": coin.one_coin,
+        "five_coin": coin.five_coin,
+        "ten_coin": coin.ten_coin,
+        "twenty_banknote": coin.twenty_banknote,
+        "fifty_banknote": coin.fifty_banknote,
+        "hundred_banknote": coin.hundred_banknote,
+        "five_hundred_banknote": coin.five_hundred_banknote,
+        "thousand_banknote": coin.thousand_banknote,
+        "total": coin.total
+    }
+
     coin_update = {
         "id": coin.id,
         "one_coin": 0,
@@ -131,9 +143,11 @@ def cancel(*, db: Session = Depends(get_db)) -> Any:
         "thousand_banknote": 0
     }
 
-    coin = crud.coin.update(db, db_obj=coin, obj_in=coin_update)
-    coin.total = 0
-    return coin
+    crud.coin.update(db, db_obj=coin, obj_in=coin_update)
+
+    return {
+        "change": change_dict
+    }
 
 
 def total(
