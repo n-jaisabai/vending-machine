@@ -1,5 +1,7 @@
 .container {
-  padding: 0 2rem;
+  display: flex;
+  padding: 2rem;
+  height: 100vh;
 }
 
 .main {
@@ -106,6 +108,11 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.overflow {
+  height: calc(100vh - 2rem);
+  overflow-y: auto;
 }
 
 @media (max-width: 600px) {
