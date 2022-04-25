@@ -31,7 +31,7 @@ class PendingCoinUpdate(BaseModel):
 
 
 class PendingCoinResponse(PendingCoinBase):
-    total: int
+    total: Optional[float]
     
     class Config:
         orm_mode = True

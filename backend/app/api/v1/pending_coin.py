@@ -1,7 +1,6 @@
 from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from h11 import SWITCHED_PROTOCOL
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
@@ -38,6 +37,7 @@ def create_coin(*, db: Session = Depends(get_db), coin_in: schemas.PendingCoinCr
             detail="The coin does exist in the system.",
         )
     coin = crud.coin.create(db, obj_in=coin_in)
+    coin.total = total(coin.one_coin, coin.five_coin, coin.ten_coin, coin.twenty_banknote, coin.fifty_banknote, coin.hundred_banknote, coin.five_hundred_banknote, coin.thousand_banknote)
     return coin
 
 

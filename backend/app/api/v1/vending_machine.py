@@ -29,6 +29,12 @@ def create_machine(*, db: Session = Depends(get_db), machine_in: schemas.Vending
     """
     Create new machines.
     """
+    machine = crud.machine.first(db)
+    if machine:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="The machine does exist in the system.",
+        )
     machine = crud.machine.create(db, obj_in=machine_in)
     return machine
 
@@ -42,7 +48,7 @@ def update_machine(*, db: Session = Depends(get_db), machine_in: schemas.Vending
     if not machine:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="The machine with this ID does not exist in the system.",
+            detail="The machine does not exist in the system.",
         )
     machine = crud.machine.update(db, db_obj=machine, obj_in=machine_in)
     return machine
