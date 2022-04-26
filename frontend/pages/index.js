@@ -11,6 +11,7 @@ import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Swal from 'sweetalert2'
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -76,6 +77,29 @@ export default function Home() {
     });
     const json = await res.json();
     if (res.status === 200) {
+
+      let message = `You receive ${json.change.total} THB change.`
+      if (json.change.total > 0) {
+        message += '<br>('
+        let message_list = []
+        json.change.one_coin > 0 ? message_list.push(`coins of 1 THB: ${json.change.one_coin}`) : ''
+        json.change.five_coin > 0 ? message_list.push(`coins of 5 THB: ${json.change.five_coin}`) : ''
+        json.change.ten_coin > 0 ? message_list.push(`coins of 10 THB: ${json.change.ten_coin}`) : ''
+        json.change.twenty_banknote > 0 ? message_list.push(`banknotes of 20 THB: ${json.change.twenty_banknote}`) : ''
+        json.change.fifty_banknote > 0 ? message_list.push(`banknotes of 50 THB: ${json.change.fifty_banknote}`) : ''
+        json.change.hundred_banknote > 0 ? message_list.push(`banknotes of 100 THB: ${json.change.hundred_banknote}`) : ''
+        json.change.five_hundred_banknote > 0 ? message_list.push(`banknotes of 500 THB: ${json.change.five_hundred_banknote}`) : ''
+        json.change.thousand_banknote > 0 ? message_list.push(`banknotes of 1000 THB: ${json.change.thousand_banknote}`) : ''
+        message += message_list.join(', ')
+        message += ')'
+      }
+
+      Swal.fire({
+        title: `You buy ${json.product_name} Success!`,
+        html: message,
+        icon: 'success'
+      })
+
       fetchProducts();
       fetchMachine();
       setPendingCoin({
@@ -89,6 +113,12 @@ export default function Home() {
         "thousand_banknote": 0,
         "total": 0
       })
+    } else {
+      Swal.fire({
+        title: `Your transaction error!`,
+        text: json.detail,
+        icon: 'error'
+      })
     }
   }
 
@@ -101,6 +131,28 @@ export default function Home() {
     });
     const json = await res.json();
     if (res.status === 200) {
+      let message = `You receive ${json.change.total} THB back.`
+      if (json.change.total > 0) {
+        message += '<br>('
+        let message_list = []
+        json.change.one_coin > 0 ? message_list.push(`coins of 1 THB: ${json.change.one_coin}`) : ''
+        json.change.five_coin > 0 ? message_list.push(`coins of 5 THB: ${json.change.five_coin}`) : ''
+        json.change.ten_coin > 0 ? message_list.push(`coins of 10 THB: ${json.change.ten_coin}`) : ''
+        json.change.twenty_banknote > 0 ? message_list.push(`banknotes of 20 THB: ${json.change.twenty_banknote}`) : ''
+        json.change.fifty_banknote > 0 ? message_list.push(`banknotes of 50 THB: ${json.change.fifty_banknote}`) : ''
+        json.change.hundred_banknote > 0 ? message_list.push(`banknotes of 100 THB: ${json.change.hundred_banknote}`) : ''
+        json.change.five_hundred_banknote > 0 ? message_list.push(`banknotes of 500 THB: ${json.change.five_hundred_banknote}`) : ''
+        json.change.thousand_banknote > 0 ? message_list.push(`banknotes of 1000 THB: ${json.change.thousand_banknote}`) : ''
+        message += message_list.join(', ')
+        message += ')'
+      }
+
+      Swal.fire({
+        title: `Canceled!`,
+        html: message,
+        icon: 'success'
+      })
+
       setPendingCoin({
         "one_coin": 0,
         "five_coin": 0,
