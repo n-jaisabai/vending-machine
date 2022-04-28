@@ -68,14 +68,14 @@ Before use the application, run migration command for initial database
   * For Docker
     * Run following command for migrate database
       ```bash
-      docker-compose run --rm backend alembic revision?--autogenerate -m "init"
+      docker-compose run --rm backend alembic revision --autogenerate -m "init"
 
       docker-compose run --rm backend alembic upgrade head
       ```
   * Without Docker
     * Run following command for migrate database
       ```bash
-      alembic revision?--autogenerate -m "init"
+      alembic revision --autogenerate -m "init"
 
       alembic upgrade head
       ```
