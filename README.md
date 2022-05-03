@@ -7,7 +7,6 @@ We have two application frontend and backend.
 
 * Backend is made with **FastAPI**.
 
-> I never used these programming languages before.
 
 ## Run application with docker
 1) Make sure docker and docker-compose is configured in your machine.
